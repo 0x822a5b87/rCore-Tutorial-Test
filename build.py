@@ -16,7 +16,19 @@ else :
 
 for app in apps:
     app = app[: app.find(".")]
+    #
     os.system(
+        # generate object files by compiling source codes.
+        #
+        # cargo rustc --bin hello_world --release -- Clink-args=Ttext=0x80400000
+        #
+        #       --bin [<NAME>]      Build only the specified binary
+        #       --release           Use release mode, which enables -O3 optimization, etc.
+        #       --                  Separator indicating the subsequent parameters are passed to `rustc`
+        #       -C, --codegen <OPT>[=<VALUE>] Set a codegen option
+        #
+        #           link-args specifies that it's an argument for linker.
+        #           -Ttext=0x80400000 T=template, text=.text section. It explicitly specifies the load address of the code.
         "cargo rustc --bin %s %s -- -Clink-args=-Ttext=%x"
         % (app, mode_arg, base_address + step * app_id)
     )
